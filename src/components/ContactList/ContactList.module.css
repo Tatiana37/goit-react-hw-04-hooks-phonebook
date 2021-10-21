@@ -1,0 +1,9 @@
+.contactBtn {
+  border-radius: 5px;
+  margin-bottom: 8px;
+}
+
+.contactBtn:hover,
+.contactBtn:focus {
+  background-color: rgb(88, 194, 255);
+}
