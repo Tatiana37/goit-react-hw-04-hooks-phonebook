@@ -1,43 +1,45 @@
-import { Component } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import s from './Form.module.css';
 import shortid from 'shortid';
 
-class Form extends Component {
-  state = {
-    name: '',
-    number: '',
-  };
+function Form({onSubmit}) {
+  const [name, setName] = useState('');
+  const [number, setNumber] = useState('');
 
-  nameId = shortid.generate();
-  telId = shortid.generate();
+  const nameId = shortid.generate();
+  const telId = shortid.generate();
 
-  handleChange = e => {
+  const handleChange = e => {
     const { name, value } = e.currentTarget;
-    this.setState({
-      [name]: value,
-    });
+    switch (name) {
+      case 'name':
+        setName(value);
+        break;
+      case 'number':
+        setNumber(value);
+        break;
+      default:
+        return;
+    }
   };
 
-  handleSubmit = e => {
+  const handleSubmit = e => {
     e.preventDefault();
-    const { name, number } = this.state;
     const contact = {
       id: shortid.generate(),
       name,
       number,
     };
-    this.props.onSubmit(contact);
-    this.reset();
+    onSubmit(contact);
+    reset();
   };
 
-  reset() {
-    this.setState({ name: '', number: '' });
+  const reset = () => {
+    setName('');
+    setNumber('');
   }
 
-  render() {
-    const { name, number } = this.state;
-    const { handleSubmit, handleChange, nameId, telId } = this;
     return (
       <div className={s.border}>
         <form className={s.form} onSubmit={handleSubmit}>
@@ -76,7 +78,7 @@ class Form extends Component {
       </div>
     );
   }
-}
+
 
 Form.propTypes = {
   name: PropTypes.string,
